@@ -1,0 +1,22 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "admin",
+      "password": "admin123",
+      "email": "admin@shumanay.uz",
+      "fullName": "Administrator",
+      "isAdmin": true,
+      "createdAt": "2024-04-13T00:00:00Z"
+    },
+    {
+      "id": 2,
+      "username": "user",
+      "password": "user123",
+      "email": "user@shumanay.uz",
+      "fullName": "Test User",
+      "isAdmin": false,
+      "createdAt": "2024-04-13T00:00:00Z"
+    }
+  ]
+}

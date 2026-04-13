@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kirish va Ro'yxatdan O'tish | Shumanay Khokimiyat</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#eef4fb] text-slate-900">
+    <div class="min-h-screen flex items-center justify-center px-4 py-10">
+        <div class="w-full max-w-6xl grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+            <div class="rounded-[40px] bg-[#eaf3ff] p-10 shadow-[0_18px_60px_rgba(7,18,53,0.08)]">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Emblem_of_Karakalpakstan.svg/500px-Emblem_of_Karakalpakstan.svg.png" alt="Shumanay Logosi" class="w-24 h-24 rounded-full border border-slate-200 bg-white p-2">
+                <h1 class="mt-8 text-4xl font-bold text-[#003d82]">Shumanay Khokimiyat</h1>
+                <p class="mt-4 text-slate-700 leading-relaxed">Rasmiy veb-saytga xush kelibsiz. Bu yerda ro‘yxatdan o‘tib, portalga kirishingiz, parolni tiklashingiz va mahalliy yangiliklarni kuzatishingiz mumkin.</p>
+                <div class="mt-10 space-y-4 text-slate-600">
+                    <div class="rounded-3xl bg-white border border-slate-200 p-5">
+                        <p class="font-semibold text-slate-950">Qoraqalpog'iston Respublikasi</p>
+                        <p class="text-sm">Hududdagi ijtimoiy va ma'muriy xizmatlar portali.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rounded-[40px] bg-white p-8 shadow-[0_18px_60px_rgba(7,18,53,0.08)] border border-slate-200">
+                <div class="flex gap-1 mb-8 rounded-full bg-slate-100 p-1">
+                    <button id="loginTab" class="tab-button active">Kirish</button>
+                    <button id="registerTab" class="tab-button">Ro'yxatdan O'tish</button>
+                </div>
+
+                <div id="messageBar" class="mb-6 hidden rounded-3xl border border-transparent p-4 text-sm"></div>
+
+                <div id="loginSection">
+                    <form id="loginForm" class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Foydalanuvchi nomi yoki Email</label>
+                            <input id="loginUsername" type="text" required class="input-field" placeholder="Email yoki foydalanuvchi nomi">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Parol</label>
+                            <input id="loginPassword" type="password" required class="input-field" placeholder="Parolni kiriting">
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <button type="submit" class="btn-primary w-full">Kirish</button>
+                        </div>
+                        <button type="button" id="forgotLink" class="text-sm text-[#003d82] hover:underline">Parolni unutdingizmi?</button>
+                    </form>
+                </div>
+
+                <div id="registerSection" class="hidden">
+                    <form id="registerForm" class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">To'liq Ism</label>
+                            <input id="registerFullName" type="text" required class="input-field" placeholder="To'liq ismingizni kiriting">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Email</label>
+                            <input id="registerEmail" type="email" required class="input-field" placeholder="Email manzilingizni kiriting">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Foydalanuvchi Nomi</label>
+                            <input id="registerUsername" type="text" required class="input-field" placeholder="Foydalanuvchi nomi">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Parol</label>
+                            <input id="registerPassword" type="password" required class="input-field" placeholder="Parolni kiriting">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Parolni tasdiqlang</label>
+                            <input id="registerConfirmPassword" type="password" required class="input-field" placeholder="Parolni qayta kiriting">
+                        </div>
+                        <button type="submit" class="btn-primary w-full">Ro'yxatdan O'tish</button>
+                    </form>
+                </div>
+
+                <div id="forgotSection" class="hidden">
+                    <form id="forgotForm" class="space-y-5">
+                        <div>
+                            <p class="text-sm text-slate-600">Parolni tiklash uchun ro'yxatdan o'tgan Gmail manzilingizni kiriting.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Email</label>
+                            <input id="forgotEmail" type="email" required class="input-field" placeholder="Gmail manzilingizni kiriting">
+                        </div>
+                        <button type="submit" class="btn-primary w-full">Reset kodini yuborish</button>
+                        <button type="button" id="backToLogin" class="text-sm text-[#003d82] hover:underline">Kirish sahifasiga qaytish</button>
+                    </form>
+                </div>
+
+                <div id="verifySection" class="hidden">
+                    <form id="verifyForm" class="space-y-5">
+                        <div>
+                            <p class="text-sm text-slate-600">Elektron pochta orqali yuborilgan kodni kiriting.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Kod</label>
+                            <input id="verifyCode" type="text" required class="input-field" placeholder="6 xonali kodni kiriting">
+                        </div>
+                        <button type="submit" class="btn-primary w-full">Kod tekshirish</button>
+                        <button type="button" id="backToForgot" class="text-sm text-[#003d82] hover:underline">Qayta yuborish</button>
+                    </form>
+                </div>
+
+                <div id="resetSection" class="hidden">
+                    <form id="resetForm" class="space-y-5">
+                        <div>
+                            <p class="text-sm text-slate-600">Yangi parolni kiriting va tasdiqlang.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Yangi Parol</label>
+                            <input id="resetPassword" type="password" required class="input-field" placeholder="Yangi parolni kiriting">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Parolni tasdiqlash</label>
+                            <input id="resetConfirmPassword" type="password" required class="input-field" placeholder="Yangi parolni qayta kiriting">
+                        </div>
+                        <button type="submit" class="btn-primary w-full">Parolni yangilash</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script src="js/email-service.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        const loginTab = document.getElementById('loginTab');
+        const registerTab = document.getElementById('registerTab');
+        const loginSection = document.getElementById('loginSection');
+        const registerSection = document.getElementById('registerSection');
+        const forgotSection = document.getElementById('forgotSection');
+        const verifySection = document.getElementById('verifySection');
+        const resetSection = document.getElementById('resetSection');
+        const messageBar = document.getElementById('messageBar');
+
+        let forgotEmail = '';
+
+        function showMessage(text, type = 'info') {
+            messageBar.textContent = text;
+            messageBar.className = 'mb-6 rounded-3xl border p-4 text-sm';
+            if (type === 'error') {
+                messageBar.classList.add('border-red-200', 'bg-red-50', 'text-red-700');
+            } else if (type === 'success') {
+                messageBar.classList.add('border-green-200', 'bg-green-50', 'text-green-700');
+            } else {
+                messageBar.classList.add('border-slate-200', 'bg-slate-50', 'text-slate-700');
+            }
+            messageBar.classList.remove('hidden');
+        }
+
+        function hideMessage() {
+            messageBar.classList.add('hidden');
+        }
+
+        function setActiveTab(activeButton) {
+            [loginTab, registerTab].forEach(button => {
+                button.classList.remove('active');
+            });
+            activeButton.classList.add('active');
+        }
+
+        function showSection(section) {
+            [loginSection, registerSection, forgotSection, verifySection, resetSection].forEach(item => item.classList.add('hidden'));
+            section.classList.remove('hidden');
+        }
+
+        loginTab.addEventListener('click', () => {
+            setActiveTab(loginTab);
+            showSection(loginSection);
+            hideMessage();
+        });
+
+        registerTab.addEventListener('click', () => {
+            setActiveTab(registerTab);
+            showSection(registerSection);
+            hideMessage();
+        });
+
+        document.getElementById('forgotLink').addEventListener('click', () => {
+            setActiveTab(loginTab);
+            showSection(forgotSection);
+            hideMessage();
+        });
+
+        document.getElementById('backToLogin').addEventListener('click', () => {
+            setActiveTab(loginTab);
+            showSection(loginSection);
+            hideMessage();
+        });
+
+        document.getElementById('backToForgot').addEventListener('click', () => {
+            setActiveTab(loginTab);
+            showSection(forgotSection);
+            hideMessage();
+        });
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            hideMessage();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+            const result = auth.login(username, password);
+            if (result.success) {
+                showMessage('Kirish muvaffaqiyatli. Sahifaga yo‘naltirilmoqda...', 'success');
+                setTimeout(() => window.location.href = 'index.html', 800);
+            } else {
+                showMessage(result.message, 'error');
+            }
+        }
+
+        async function handleRegister(event) {
+            event.preventDefault();
+            hideMessage();
+            const fullName = document.getElementById('registerFullName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const username = document.getElementById('registerUsername').value.trim();
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            const result = auth.register(username, email, password, confirmPassword, fullName);
+            if (result.success) {
+                showMessage(result.message + ' Endi kirishingiz mumkin.', 'success');
+                document.getElementById('registerForm').reset();
+                setTimeout(() => {
+                    setActiveTab(loginTab);
+                    showSection(loginSection);
+                    hideMessage();
+                }, 1800);
+            } else {
+                showMessage(result.message, 'error');
+            }
+        }
+
+        async function handleForgot(event) {
+            event.preventDefault();
+            hideMessage();
+            const email = document.getElementById('forgotEmail').value.trim();
+            const result = await auth.startForgotPassword(email);
+            if (result.success) {
+                showMessage(result.message, 'success');
+                forgotEmail = email;
+                setTimeout(() => {
+                    showSection(verifySection);
+                }, 1000);
+            } else {
+                showMessage(result.message, 'error');
+            }
+        }
+
+        async function handleVerify(event) {
+            event.preventDefault();
+            hideMessage();
+            const code = document.getElementById('verifyCode').value.trim();
+            const result = auth.verifyResetCode(forgotEmail, code);
+            if (result.success) {
+                showMessage(result.message, 'success');
+                setTimeout(() => {
+                    showSection(resetSection);
+                }, 1000);
+            } else {
+                showMessage(result.message, 'error');
+            }
+        }
+
+        async function handleReset(event) {
+            event.preventDefault();
+            hideMessage();
+            const password = document.getElementById('resetPassword').value;
+            const confirmPassword = document.getElementById('resetConfirmPassword').value;
+            const code = document.getElementById('verifyCode').value.trim();
+            const result = auth.resetPassword(forgotEmail, code, password, confirmPassword);
+            if (result.success) {
+                showMessage(result.message, 'success');
+                document.getElementById('resetForm').reset();
+                setTimeout(() => {
+                    setActiveTab(loginTab);
+                    showSection(loginSection);
+                    hideMessage();
+                }, 1600);
+            } else {
+                showMessage(result.message, 'error');
+            }
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', handleLogin);
+        document.getElementById('registerForm').addEventListener('submit', handleRegister);
+        document.getElementById('forgotForm').addEventListener('submit', handleForgot);
+        document.getElementById('verifyForm').addEventListener('submit', handleVerify);
+        document.getElementById('resetForm').addEventListener('submit', handleReset);
+
+        if (auth.checkAuthStatus()) {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shomanay rayonı hákimligi | QARAQALPAQSTAN RESPUBLIKASÍ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .header-bg { background-color: #f8f9fa; border-bottom: 1px solid #e0e0e0; }
+        .nav-bg { background-color: #f0f4f8; }
+        .section-title { color: #003d82; font-weight: 800; letter-spacing: 0.5px; }
+        .news-card { border-radius: 8px; }
+        .activity-card { background-color: #f9fafb; border-left-width: 4px; border-left-color: #003d82; }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Top Blue Bar -->
+    <div class="bg-blue-900 text-white py-2 px-4">
+        <div class="container mx-auto flex justify-between items-center text-sm">
+            <span>Mámleket sawǵaları</span>
+            <div class="flex gap-4">
+                <span id="userInfo">Mehmon</span>
+                <button onclick="handleLogout()" class="text-yellow-300 hover:underline">Chiqish</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header-bg" id="header">
+        <div class="container mx-auto px-4 flex items-center justify-between py-4">
+            <div class="flex items-center gap-4">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Emblem_of_Karakalpakstan.svg/500px-Emblem_of_Karakalpakstan.svg.png" alt="Logo" class="w-16 h-16 rounded-full">
+                <div>
+                    <h1 class="text-lg font-bold text-blue-900">QARAQALPAQSTAN RESPUBLIKASI SHUMANAY RAYONI HÁKIMLIGI</h1>
+                    <p class="text-sm text-gray-600">O'ZBEKISTON RESPUBLIKASI HUQUMAT PORTALI</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="text-sm text-blue-900">isenim telefonı</div>
+                <div class="text-2xl font-bold text-blue-900">+99861-346-24-73</div>
+                <div class="text-xs text-gray-600">BARLÍQ SANLAR</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-bg border-t border-gray-300">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between py-3 flex-wrap gap-2" id="navigation">
+                <!-- Navigation items will be inserted here -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Admin Panel -->
+        <div id="adminPanel" class="bg-yellow-50 border border-yellow-300 p-4 rounded-lg mb-8 hidden">
+            <div class="flex justify-between items-center">
+                <h3 class="font-bold text-yellow-900">🔧 Admin Paneli</h3>
+                <div class="flex gap-2">
+                    <button onclick="openAddNewsModal()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">+ Jańalıq qos</button>
+                    <button onclick="openAddActivityModal()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">+ Faoliyat Qos</button>
+                    <button onclick="downloadData()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">📥 Maǵlıwmatlardı júklep alıw</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- News Section (Yangiliklar) -->
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="section-title text-2xl">YANGILIKLAR</h2>
+                <div class="flex gap-2">
+                    <a href="#" class="text-blue-600 text-sm hover:underline">📱</a>
+                    <a href="#" class="text-blue-600 text-sm hover:underline">📧</a>
+                    <a href="#" class="text-blue-600 text-sm hover:underline">👥</a>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="newsGrid">
+                <!-- News items will be inserted here -->
+            </div>
+
+            <div class="mt-6 text-center">
+                <a href="#" class="text-blue-600 text-sm hover:underline">Barcha yangiliklar →</a>
+            </div>
+        </section>
+
+        <!-- Activities Section (Faoliyatlar Yo'nalishi) -->
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="section-title text-2xl">FAOLIYATLAR YO'NALISHI</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="activitiesGrid">
+                <!-- Activity items will be inserted here -->
+            </div>
+
+            <div class="mt-6 text-center">
+                <a href="#" class="text-blue-600 text-sm hover:underline">Barcha so'z →</a>
+            </div>
+        </section>
+
+        <!-- Sidebar with Latest News -->
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="section-title text-2xl">OXIRGI YANGILIKLAR</h2>
+            </div>
+
+            <div id="sidebar" class="bg-gray-50 p-6 rounded-lg">
+                <!-- Sidebar items will be inserted here -->
+            </div>
+        </section>
+
+        <!-- Other Sections -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-12">
+            <div class="text-center p-4 bg-gray-50 rounded-lg hover:shadow-md transition">
+                <h3 class="font-bold text-blue-900 mb-2">INTERAKTIV XIZMATLARI</h3>
+                <p class="text-sm text-gray-600">Barcha xizmatlari →</p>
+            </div>
+            <div class="text-center p-4 bg-gray-50 rounded-lg hover:shadow-md transition">
+                <h3 class="font-bold text-blue-900 mb-2">VOQEALAR TAQVIMI</h3>
+                <p class="text-sm text-gray-600">Barcha xizmatlari →</p>
+            </div>
+            <div class="text-center p-4 bg-gray-50 rounded-lg hover:shadow-md transition">
+                <h3 class="font-bold text-blue-900 mb-2">FOYDALI HAVOLALAR</h3>
+                <p class="text-sm text-gray-600">Barcha xizmatlari →</p>
+            </div>
+            <div class="text-center p-4 bg-gray-50 rounded-lg hover:shadow-md transition">
+                <h3 class="font-bold text-blue-900 mb-2">SAVOLLAR</h3>
+                <p class="text-sm text-gray-600">Barcha xizmatlari →</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 mt-12 py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div>
+                    <h4 class="text-white font-bold mb-3">SHUMANAY TUMANI</h4>
+                    <p class="text-sm">QORAQQALPOG'ISTON RESPUBLIKASI HOKIMLIGI</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3">ALOQA</h4>
+                    <p class="text-sm">Telefon: +99861-346-24-73</p>
+                    <p class="text-sm">Email: info@shumanay.uz</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3">BOG'LANISH</h4>
+                    <div class="flex gap-3">
+                        <a href="#" class="text-blue-400 hover:text-blue-300">Telegram</a>
+                        <a href="#" class="text-blue-400 hover:text-blue-300">Instagram</a>
+                        <a href="#" class="text-blue-400 hover:text-blue-300">Facebook</a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-4 text-center text-sm">
+                <p>© 2024 Shumanay Tumani Hokimligi. Barcha huquqlar himoyalangan.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center hidden z-50 flex">
+        <div class="bg-white p-6 rounded-lg max-w-md w-full max-h-96 overflow-y-auto">
+            <h2 class="text-xl font-bold mb-4">Tahrirlash</h2>
+            <form id="editForm"></form>
+        </div>
+    </div>
+
+    <!-- Add News Modal -->
+    <div id="addNewsModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center hidden z-50 flex">
+        <div class="bg-white p-6 rounded-lg max-w-md w-full">
+            <h2 class="text-xl font-bold mb-4">Yangilik Qo'shish</h2>
+            <form onsubmit="submitAddNews(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Sarlavha</label>
+                    <input type="text" id="newNewsTitle" required class="w-full border px-3 py-2 rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Tavsifi</label>
+                    <textarea id="newNewsDesc" required class="w-full border px-3 py-2 rounded h-20"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Rasm URL</label>
+                    <input type="text" id="newNewsImage" required class="w-full border px-3 py-2 rounded">
+                </div>
+                <div class="flex gap-2 justify-end">
+                    <button type="button" onclick="closeAddNewsModal()" class="bg-gray-400 text-white px-4 py-2 rounded">Bekor</button>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Saqlash</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Activity Modal -->
+    <div id="addActivityModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center hidden z-50 flex">
+        <div class="bg-white p-6 rounded-lg max-w-md w-full">
+            <h2 class="text-xl font-bold mb-4">Faoliyat Qo'shish</h2>
+            <form onsubmit="submitAddActivity(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Nomi</label>
+                    <input type="text" id="newActivityTitle" required class="w-full border px-3 py-2 rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Tavsifi</label>
+                    <input type="text" id="newActivityDesc" required class="w-full border px-3 py-2 rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Emoji/Icon</label>
+                    <input type="text" id="newActivityIcon" required class="w-full border px-3 py-2 rounded" placeholder="masalan: ⚡">
+                </div>
+                <div class="flex gap-2 justify-end">
+                    <button type="button" onclick="closeAddActivityModal()" class="bg-gray-400 text-white px-4 py-2 rounded">Bekor</button>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Saqlash</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        // Require authentication
+        auth.requireAuth();
+
+        // Update user info
+        const currentUser = auth.getCurrentUser();
+        if (currentUser) {
+            document.getElementById('userInfo').textContent = `${currentUser.fullName}`;
+            
+            // Show admin panel if admin
+            if (auth.isAdmin()) {
+                document.getElementById('adminPanel').classList.remove('hidden');
+            }
+        }
+
+        // Logout function
+        function handleLogout() {
+            if (confirm('Haqiqatdan ham chiqmoqchimisiz?')) {
+                auth.logout();
+            }
+        }
+
+        // Modal functions
+        function openAddNewsModal() {
+            document.getElementById('addNewsModal').classList.remove('hidden');
+        }
+
+        function closeAddNewsModal() {
+            document.getElementById('addNewsModal').classList.add('hidden');
+        }
+
+        function openAddActivityModal() {
+            document.getElementById('addActivityModal').classList.remove('hidden');
+        }
+
+        function closeAddActivityModal() {
+            document.getElementById('addActivityModal').classList.add('hidden');
+        }
+
+        function submitAddNews(e) {
+            e.preventDefault();
+            const title = document.getElementById('newNewsTitle').value;
+            const desc = document.getElementById('newNewsDesc').value;
+            const image = document.getElementById('newNewsImage').value;
+            
+            app.addNews(title, desc, image, new Date().toLocaleDateString('uz-UZ'));
+            closeAddNewsModal();
+            document.getElementById('addNewsModal').querySelector('form').reset();
+            alert('Yangilik qo\'shildi!');
+        }
+
+        function submitAddActivity(e) {
+            e.preventDefault();
+            const title = document.getElementById('newActivityTitle').value;
+            const desc = document.getElementById('newActivityDesc').value;
+            const icon = document.getElementById('newActivityIcon').value;
+            
+            app.addActivity(title, desc, icon);
+            closeAddActivityModal();
+            document.getElementById('addActivityModal').querySelector('form').reset();
+            alert('Faoliyat qo\'shildi!');
+        }
+
+        function downloadData() {
+            const data = localStorage.getItem('siteData');
+            const element = document.createElement('a');
+            element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(data));
+            element.setAttribute('download', 'data.json');
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        }
+
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            const addNewsModal = document.getElementById('addNewsModal');
+            const addActivityModal = document.getElementById('addActivityModal');
+            
+            if (e.target === addNewsModal) {
+                closeAddNewsModal();
+            }
+            if (e.target === addActivityModal) {
+                closeAddActivityModal();
+            }
+        });
+    </script>
+</body>
+</html>

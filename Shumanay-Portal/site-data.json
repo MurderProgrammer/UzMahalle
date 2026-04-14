@@ -1,0 +1,61 @@
+{
+  "navItems": [
+    { "title": "Bosh sahifa", "href": "#" },
+    { "title": "Yangiliklar", "href": "#" },
+    { "title": "Faoliyat", "href": "#" },
+    { "title": "Xizmatlar", "href": "#" },
+    { "title": "Aloqa", "href": "#" }
+  ],
+  "news": [
+    {
+      "title": "Shumanay tumanida yangi infratuzilma loyihalari boshlanmoqda",
+      "description": "Hududdagi ko‘chalarning qayta ta'mirlash va kommunal xizmatlarni modernizatsiya qilish jarayoni davom etmoqda.",
+      "image": "https://images.unsplash.com/photo-1519985176271-adb1088fa94c?auto=format&fit=crop&w=900&q=80",
+      "category": "Rasmiy xabar"
+    },
+    {
+      "title": "Mahalliy tadbirkorlikni qo‘llab-quvvatlash dasturi",
+      "description": "Yangi grantlar va mentorlik dasturlari yoshlar va ayollar uchun ochiq.",
+      "image": "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=900&q=80",
+      "category": "E'lon"
+    },
+    {
+      "title": "Ijtimoiy xizmatlarda navbatlarni kamaytirish chorasi",
+      "description": "Hokimlik elektron qabul va xizmatlar ko‘rsatish jarayonini soddalashtirdi.",
+      "image": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80",
+      "category": "Xizmatlar"
+    },
+    {
+      "title": "Shumanay markazida madaniy tadbirlar haftaligi",
+      "description": "Hududiy san'at va sport faoliyatlari uchun maxsus dasturlar tayyorlandi.",
+      "image": "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
+      "category": "Madaniyat"
+    }
+  ],
+  "activities": [
+    {
+      "title": "Mahalla qo‘mitalari",
+      "description": "Hududlardagi ijtimoiy loyihalar va fuqarolar bilan ishlash.",
+      "icon": "🏛️"
+    },
+    {
+      "title": "Ta'lim va sport",
+      "description": "Yoshlar uchun ta'lim dasturlari va sport musobaqalari.",
+      "icon": "🎓"
+    },
+    {
+      "title": "Atrof-muhit himoyasi",
+      "description": "G‘oyalar, tozalash tadbirlari va yashil hududlar yaratish.",
+      "icon": "🌿"
+    }
+  ],
+  "latestNews": [
+    { "title": "Yangi maktab qurilishi tasdiqlandi", "date": "14-04-2026" },
+    { "title": "Suv ta'minoti tizimi modernizatsiyasi", "date": "13-04-2026" },
+    { "title": "Qishloq xo‘jaligi bo‘yicha ko‘mak paketlari", "date": "12-04-2026" }
+  ],
+  "sidebar": [
+    { "title": "Elektron ariza qabul qilinadi", "summary": "Endilikda arizalarni online tarzda yuborish mumkin." },
+    { "title": "Ochiq ma'lumotlar bo‘limi", "summary": "Rasmiy qarorlar va hujjatlar bazasi yangilanmoqda." }
+  ]
+}

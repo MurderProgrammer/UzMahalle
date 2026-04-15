@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shumanay Khokimiyat - Bitta Sahifa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .header-bg { background-color: #f8f9fa; border-bottom: 1px solid #e0e0e0; }
+        .nav-bg { background-color: #f0f4f8; }
+        .section-title { color: #003d82; font-weight: 800; letter-spacing: 0.5px; }
+        .news-card { border-radius: 8px; }
+        .activity-card { background-color: #f9fafb; border-left-width: 4px; border-left-color: #003d82; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .input-field { width: 100%; border: 1px solid #e2e8f0; padding: 0.5rem 0.75rem; border-radius: 0.375rem; }
+        .input-field:focus { outline: none; box-shadow: 0 0 0 2px #003d82; }
+        .btn-primary { background-color: #003d82; color: white; padding: 0.625rem 1rem; border-radius: 0.375rem; font-weight: 600; cursor: pointer; }
+        .btn-primary:hover { background-color: #002855; }
+        .tab-button { padding: 0.75rem 1.5rem; border-radius: 9999px; cursor: pointer; transition: all 0.3s; font-weight: 500; }
+        .tab-button.active { background-color: #003d82; color: white; }
+    </style>
+</head>
+<body class="bg-white">
+
+<!-- ====== AUTH PAGE (LOGIN/REGISTER) ====== -->
+<div id="authPage" class="page active">
+    <div class="bg-[#eef4fb] text-slate-900 min-h-screen flex items-center justify-center px-4 py-10">
+        <div class="w-full max-w-6xl grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+            <div class="rounded-[40px] bg-[#eaf3ff] p-10 shadow-[0_18px_60px_rgba(7,18,53,0.08)]">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Emblem_of_Karakalpakstan.svg/500px-Emblem_of_Karakalpakstan.svg.png" alt="Shumanay Logosi" class="w-24 h-24 rounded-full border border-slate-200 bg-white p-2">
+                <h1 class="mt-8 text-4xl font-bold text-[#003d82]">Shumanay Hokimiyat</h1>
+                <p class="mt-4 text-slate-700 leading-relaxed">Rasmiy veb-saytga xush kelibsiz. Bu yerda ro'yxatdan o'tib, portalga kirishingiz, parolni tiklashingiz va mahalliy yangiliklarni kuzatishingiz mumkin.</p>
+                <div class="mt-10 space-y-4 text-slate-600">
+                    <div class="rounded-3xl bg-white border border-slate-200 p-5">
+                        <p class="font-semibold text-slate-950">Qoraqalpog'iston Respublikasi</p>
+                        <p class="text-sm">Hududdagi ijtimoiy va ma'muriy xizmatlar portali.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rounded-[40px] bg-white p-8 shadow-[0_18px_60px_rgba(7,18,53,0.08)] border border-slate-200">
+                <div class="flex gap-1 mb-8 rounded-full bg-slate-100 p-1">
+                    <button id="loginTab" class="tab-button active">Kirish</button>
+                    <button id="registerTab" class="tab-button">Ro'yxatdan O'tish</button>
+                </div>
+
+                <div id="messageBar" class="mb-6 hidden rounded-3xl border border-transparent p-4 text-sm"></div>
+
+                <!-- Login Section -->
+                <div id="loginSection">
+                    <form id="loginForm" class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Foydalanuvchi nomi yoki Email</label>
+                            <input id="loginUsername" type="text" required class="input-field" placeholder="Email yoki foydalanuvchi nomi">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Parol</label>
+                            <input id="loginPassword" type="password" required class="input-field" placeholder="Parolni kiriting">
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <button type="submit" class="btn-primary w-full">Kirish</button>
+                        </div>
+                        <button type="button" id="forgotLink" class="text-sm text-[#003d82] hover:underline">Parolni unutdingizmi?</button>
+                    </form>
+                </div>
+
+                <!-- Register Section -->
+                <div id="registerSection" class="hidden">
+                    <form id="registerForm" class="space-y-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">To'liq Ism</label>
+                            <input id="registerFullName" type="text" required class="input-field" placeholder="To'liq ismingizni kiriting">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Email</label>
+                            <input id="registerEmail" type="email" required class="input-field" placeholder="Email manzilingizni kiriting">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Foydalanuvchi Nomi</label>
+                            <input id="registerUsername" type="text" required class="input-field" placeholder="Foydalanuvchi nomi">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Parol</label>
+                            <input id="registerPassword" type="password" required class="input-field" placeholder="Parolni kiriting">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Parolni tasdiqlang</label>
+                            <input id="registerConfirmPassword" type="password" required class="input-field" placeholder="Parolni qayta kiriting">
+                        </div>
+                        <button type="submit" class="btn-primary w-full">Ro'yxatdan O'tish</button>
+                    </form>
+                </div>
+
+                <!-- Forgot Section -->
+                <div id="forgotSection" class="hidden">
+                    <form id="forgotForm" class="space-y-5">
+                        <div>
+                            <p class="text-sm text-slate-600">Parolni tiklash uchun ro'yxatdan o'tgan Gmail manzilingizni kiriting.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Email</label>
+                            <input id="forgotEmail" type="email" required class="input-field" placeholder="Gmail manzilingizni kiriting">
+                        </div>
+                        <button type="submit" class="btn-primary w-full">Reset kodini yuborish</button>
+                        <button type="button" id="backToLogin" class="text-sm text-[#003d82] hover:underline">Kirish sahifasiga qaytish</button>
+                    </form>
+                </div>
+
+                <!-- Verify Section -->
+                <div id="verifySection" class="hidden">
+                    <form id="verifyForm" class="space-y-5">
+                        <div>
+                            <p class="text-sm text-slate-600">Elektron pochta orqali yuborilgan kodni kiriting.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Kod</label>
+                            <input id="verifyCode" type="text" required class="input-field" placeholder="6 xonali kodni kiriting">
+                        </div>
+                        <button type="submit" class="btn-primary w-full">Kod tekshirish</button>
+                        <button type="button" id="backToForgot" class="text-sm text-[#003d82] hover:underline">Qayta yuborish</button>
+                    </form>
+                </div>
+
+                <!-- Reset Section -->
+                <div id="resetSection" class="hidden">
+                    <form id="resetForm" class="space-y-5">
+                        <div>
+                            <p class="text-sm text-slate-600">Yangi parolni kiriting va tasdiqlang.</p>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Yangi Parol</label>
+                            <input id="resetPassword" type="password" required class="input-field" placeholder="Yangi parolni kiriting">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Parolni tasdiqlash</label>
+                            <input id="resetConfirmPassword" type="password" required class="input-field" placeholder="Yangi parolni qayta kiriting">
+                        </div>
+                        <button type="submit" class="btn-primary w-full">Parolni yangilash</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ====== PORTAL PAGE (MAIN) ====== -->
+<div id="portalPage" class="page">
+    <!-- Top Blue Bar -->
+    <div class="bg-blue-900 text-white py-2 px-4">
+        <div class="container mx-auto flex justify-between items-center text-sm">
+            <div class="flex gap-4">
+                <span id="userInfo">Mehmon</span>
+                <button onclick="navigateToAdmin()" class="text-yellow-300 hover:underline mr-2">Admin</button>
+                <button onclick="handleLogout()" class="text-yellow-300 hover:underline">Chiqish</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="header-bg" id="header">
+        <div class="container mx-auto px-4 flex items-center justify-between py-4">
+            <div class="flex items-center gap-4">
+                <div>
+                    <h1 class="text-lg font-bold text-blue-900">QARAQALPAQSTAN RESPUBLIKASI SHUMANAY RAYONI HÁKIMLIGI</h1>
+                    <p class="text-sm text-gray-600">O'ZBEKISTON RESPUBLIKASI HUQUMAT PORTALI</p>
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="text-sm text-blue-900">isenim telefonı</div>
+                <div class="text-2xl font-bold text-blue-900">+99861-346-24-73</div>
+                <div class="text-xs text-gray-600">BARLÍQ SANLAR</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-bg border-t border-gray-300">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center justify-between py-3 flex-wrap gap-2" id="navigation">
+                <!-- Navigation items will be inserted here -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Admin Panel -->
+        <div id="adminPanel" class="bg-yellow-50 border border-yellow-300 p-4 rounded-lg mb-8 hidden">
+            <div class="flex justify-between items-center">
+                <h3 class="font-bold text-yellow-900">🔧 Admin Paneli</h3>
+                <div class="flex gap-2">
+                    <button onclick="openAddNewsModal()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">+ Jańalıq qos</button>
+                    <button onclick="openAddActivityModal()" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">+ Faoliyat Qos</button>
+                    <button onclick="downloadData()" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">📥 Maǵlıwmatlardı júklep alıw</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- News Section -->
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="section-title text-2xl">YANGILIKLAR</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="newsGrid">
+                <!-- News items will be inserted here -->
+            </div>
+            <div class="mt-6 text-center">
+                <a href="#" class="text-blue-600 text-sm hover:underline">Barcha yangiliklar →</a>
+            </div>
+        </section>
+
+        <!-- Activities Section -->
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="section-title text-2xl">FAOLIYATLAR YO'NALISHI</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="activitiesGrid">
+                <!-- Activity items will be inserted here -->
+            </div>
+            <div class="mt-6 text-center">
+                <a href="#" class="text-blue-600 text-sm hover:underline">Barcha so'z →</a>
+            </div>
+        </section>
+
+        <!-- Sidebar with Latest News -->
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="section-title text-2xl">OXIRGI YANGILIKLAR</h2>
+            </div>
+            <div id="sidebar" class="bg-gray-50 p-6 rounded-lg">
+                <!-- Sidebar items will be inserted here -->
+            </div>
+        </section>
+
+        <!-- Other Sections -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-12">
+            <div class="text-center p-4 bg-gray-50 rounded-lg hover:shadow-md transition">
+                <h3 class="font-bold text-blue-900 mb-2">INTERAKTIV XIZMATLARI</h3>
+                <p class="text-sm text-gray-600">Barcha xizmatlari →</p>
+            </div>
+            <div class="text-center p-4 bg-gray-50 rounded-lg hover:shadow-md transition">
+                <h3 class="font-bold text-blue-900 mb-2">VOQEALAR TAQVIMI</h3>
+                <p class="text-sm text-gray-600">Barcha xizmatlari →</p>
+            </div>
+            <div class="text-center p-4 bg-gray-50 rounded-lg hover:shadow-md transition">
+                <h3 class="font-bold text-blue-900 mb-2">FOYDALI HAVOLALAR</h3>
+                <p class="text-sm text-gray-600">Barcha xizmatlari →</p>
+            </div>
+            <div class="text-center p-4 bg-gray-50 rounded-lg hover:shadow-md transition">
+                <h3 class="font-bold text-blue-900 mb-2">SAVOLLAR</h3>
+                <p class="text-sm text-gray-600">Barcha xizmatlari →</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-gray-300 mt-12 py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div>
+                    <h4 class="text-white font-bold mb-3">SHUMANAY TUMANI</h4>
+                    <p class="text-sm">QORAQQALPOG'ISTON RESPUBLIKASI HOKIMLIGI</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3">ALOQA</h4>
+                    <p class="text-sm">Telefon: +99861-346-24-73</p>
+                    <p class="text-sm">Email: info@shumanay.uz</p>
+                </div>
+                <div>
+                    <h4 class="text-white font-bold mb-3">BOG'LANISH</h4>
+                    <div class="flex gap-3">
+                        <a href="#" class="text-blue-400 hover:text-blue-300">Telegram</a>
+                        <a href="#" class="text-blue-400 hover:text-blue-300">Instagram</a>
+                        <a href="#" class="text-blue-400 hover:text-blue-300">Facebook</a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-4 text-center text-sm">
+                <p>© 2024 Shumanay Tumani Hokimligi. Barcha huquqlar himoyalangan.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center hidden z-50 flex">
+        <div class="bg-white p-6 rounded-lg max-w-md w-full max-h-96 overflow-y-auto">
+            <h2 class="text-xl font-bold mb-4">Tahrirlash</h2>
+            <form id="editForm"></form>
+        </div>
+    </div>
+
+    <!-- Add News Modal -->
+    <div id="addNewsModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center hidden z-50 flex">
+        <div class="bg-white p-6 rounded-lg max-w-md w-full">
+            <h2 class="text-xl font-bold mb-4">Yangilik Qo'shish</h2>
+            <form onsubmit="submitAddNews(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Sarlavha</label>
+                    <input type="text" id="newNewsTitle" required class="w-full border px-3 py-2 rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Tavsifi</label>
+                    <textarea id="newNewsDesc" required class="w-full border px-3 py-2 rounded h-20"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Rasm URL</label>
+                    <input type="text" id="newNewsImage" required class="w-full border px-3 py-2 rounded">
+                </div>
+                <div class="flex gap-2 justify-end">
+                    <button type="button" onclick="closeAddNewsModal()" class="bg-gray-400 text-white px-4 py-2 rounded">Bekor</button>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Saqlash</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Activity Modal -->
+    <div id="addActivityModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center hidden z-50 flex">
+        <div class="bg-white p-6 rounded-lg max-w-md w-full">
+            <h2 class="text-xl font-bold mb-4">Faoliyat Qo'shish</h2>
+            <form onsubmit="submitAddActivity(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Nomi</label>
+                    <input type="text" id="newActivityTitle" required class="w-full border px-3 py-2 rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Tavsifi</label>
+                    <input type="text" id="newActivityDesc" required class="w-full border px-3 py-2 rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Emoji/Icon</label>
+                    <input type="text" id="newActivityIcon" required class="w-full border px-3 py-2 rounded" placeholder="masalan: ⚡">
+                </div>
+                <div class="flex gap-2 justify-end">
+                    <button type="button" onclick="closeAddActivityModal()" class="bg-gray-400 text-white px-4 py-2 rounded">Bekor</button>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Saqlash</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- ====== ADMIN PAGE ====== -->
+<div id="adminPage" class="page">
+    <!-- Header -->
+    <div class="bg-blue-900 text-white py-4 px-4 shadow-lg">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold cursor-pointer" onclick="navigateToPortal()">🔧 Admin Paneli</h1>
+            <div class="flex gap-4">
+                <span id="adminUserInfo">Admin</span>
+                <button onclick="handleLogout()" class="bg-red-600 px-4 py-2 rounded hover:bg-red-700">Chiqish</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8">
+        <!-- Tabs -->
+        <div class="flex border-b mb-6">
+            <button class="tab-btn active px-6 py-3 font-semibold border-b-2 border-blue-600 text-blue-600" data-tab="dashboard">Bosh Sahifa</button>
+            <button class="tab-btn px-6 py-3 font-semibold text-gray-600 hover:text-blue-600" data-tab="users">Foydalanuvchilar</button>
+            <button class="tab-btn px-6 py-3 font-semibold text-gray-600 hover:text-blue-600" data-tab="settings">Sozlamalar</button>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboardTab" class="tab-content">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <div class="text-gray-600 text-sm">Jami Yangiliklar</div>
+                    <div class="text-3xl font-bold text-blue-600" id="newsCount">0</div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <div class="text-gray-600 text-sm">Jami Faoliyatlar</div>
+                    <div class="text-3xl font-bold text-green-600" id="activitiesCount">0</div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <div class="text-gray-600 text-sm">Jami Foydalanuvchilar</div>
+                    <div class="text-3xl font-bold text-purple-600" id="usersCount">0</div>
+                </div>
+                <div class="bg-white p-4 rounded-lg shadow">
+                    <div class="text-gray-600 text-sm">Admin Roli</div>
+                    <div class="text-3xl font-bold text-yellow-600" id="adminCount">0</div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white p-6 rounded-lg shadow mb-8">
+                <h2 class="text-xl font-bold mb-4">Tez Harakatlar</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <button onclick="openAddNewsModalAdmin()" class="bg-blue-600 text-white py-3 rounded hover:bg-blue-700 font-semibold">
+                        ➕ Yangilik Qo'shish
+                    </button>
+                    <button onclick="openAddActivityModalAdmin()" class="bg-green-600 text-white py-3 rounded hover:bg-green-700 font-semibold">
+                        ➕ Faoliyat Qo'shish
+                    </button>
+                    <button onclick="downloadDataAdmin()" class="bg-purple-600 text-white py-3 rounded hover:bg-purple-700 font-semibold">
+                        📥 Ma'lumot Yuklab Olish
+                    </button>
+                </div>
+            </div>
+
+            <!-- News Management -->
+            <div class="bg-white p-6 rounded-lg shadow mb-8">
+                <h2 class="text-xl font-bold mb-4">Yangiliklar Boshqarish</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-100 border-b">
+                            <tr>
+                                <th class="px-4 py-2 text-left">ID</th>
+                                <th class="px-4 py-2 text-left">Sarlavha</th>
+                                <th class="px-4 py-2 text-left">Sana</th>
+                                <th class="px-4 py-2 text-center">Harakatlari</th>
+                            </tr>
+                        </thead>
+                        <tbody id="newsTable">
+                            <!-- News list will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Activities Management -->
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-xl font-bold mb-4">Faoliyatlar Boshqarish</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-100 border-b">
+                            <tr>
+                                <th class="px-4 py-2 text-left">ID</th>
+                                <th class="px-4 py-2 text-left">Nomi</th>
+                                <th class="px-4 py-2 text-left">Tavsifi</th>
+                                <th class="px-4 py-2 text-center">Harakatlari</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activitiesTable">
+                            <!-- Activities list will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users Tab -->
+        <div id="usersTab" class="tab-content hidden">
+            <div class="bg-white p-6 rounded-lg shadow">
+                <h2 class="text-xl font-bold mb-4">Foydalanuvchilar Ro'yxati</h2>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead class="bg-gray-100 border-b">
+                            <tr>
+                                <th class="px-4 py-2 text-left">ID</th>
+                                <th class="px-4 py-2 text-left">To'liq Ism</th>
+                                <th class="px-4 py-2 text-left">Foydalanuvchi Nomi</th>
+                                <th class="px-4 py-2 text-left">Email</th>
+                                <th class="px-4 py-2 text-left">Rol</th>
+                                <th class="px-4 py-2 text-left">Ro'yxatdan O'tish</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usersTable">
+                            <!-- Users list will be inserted here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="settingsTab" class="tab-content hidden">
+            <div class="bg-white p-6 rounded-lg shadow max-w-2xl">
+                <h2 class="text-xl font-bold mb-6">Sayt Sozlamalari</h2>
+                
+                <form id="settingsForm">
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Portal Nomi</label>
+                        <input type="text" id="siteTitle" class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Sayt Subtitresi</label>
+                        <input type="text" id="siteSubtitle" class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Ishonch Telefoni</label>
+                        <input type="text" id="sitePhone" class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-sm font-bold mb-2">Logo URL</label>
+                        <input type="text" id="siteLogo" class="w-full border px-4 py-2 rounded focus:outline-none focus:ring-2 focus:ring-blue-600">
+                    </div>
+
+                    <div class="flex gap-2 justify-end">
+                        <button type="button" onclick="resetSettingsAdmin()" class="bg-gray-400 text-white px-6 py-2 rounded hover:bg-gray-500">
+                            Bekor qilish
+                        </button>
+                        <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+                            Saqlash
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add News Modal -->
+    <div id="addNewsModalAdmin" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center hidden z-50 flex">
+        <div class="bg-white p-6 rounded-lg max-w-md w-full">
+            <h2 class="text-xl font-bold mb-4">Yangilik Qo'shish</h2>
+            <form onsubmit="submitAddNewsAdmin(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Sarlavha</label>
+                    <input type="text" id="newNewsTitleAdmin" required class="w-full border px-3 py-2 rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Tavsifi</label>
+                    <textarea id="newNewsDescAdmin" required class="w-full border px-3 py-2 rounded h-20"></textarea>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Rasm URL</label>
+                    <input type="text" id="newNewsImageAdmin" required class="w-full border px-3 py-2 rounded">
+                </div>
+                <div class="flex gap-2 justify-end">
+                    <button type="button" onclick="closeAddNewsModalAdmin()" class="bg-gray-400 text-white px-4 py-2 rounded">Bekor</button>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Saqlash</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Activity Modal -->
+    <div id="addActivityModalAdmin" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center hidden z-50 flex">
+        <div class="bg-white p-6 rounded-lg max-w-md w-full">
+            <h2 class="text-xl font-bold mb-4">Faoliyat Qo'shish</h2>
+            <form onsubmit="submitAddActivityAdmin(event)">
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Nomi</label>
+                    <input type="text" id="newActivityTitleAdmin" required class="w-full border px-3 py-2 rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Tavsifi</label>
+                    <input type="text" id="newActivityDescAdmin" required class="w-full border px-3 py-2 rounded">
+                </div>
+                <div class="mb-4">
+                    <label class="block text-sm font-bold mb-2">Emoji/Icon</label>
+                    <input type="text" id="newActivityIconAdmin" required class="w-full border px-3 py-2 rounded" placeholder="masalan: ⚡">
+                </div>
+                <div class="flex gap-2 justify-end">
+                    <button type="button" onclick="closeAddActivityModalAdmin()" class="bg-gray-400 text-white px-4 py-2 rounded">Bekor</button>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Saqlash</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Scripts -->
+<script src="js/email-service.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/app.js"></script>
+
+<script>
+    // ====== PAGE NAVIGATION ======
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+    }
+
+    function navigateToPortal() {
+        auth.requireAuth();
+        showPage('portalPage');
+        loadPortalData();
+    }
+
+    function navigateToAdmin() {
+        if (!auth.isAdmin()) {
+            showMessage('Faqat admin bu sahifaga kirishi mumkin!', 'error');
+            return;
+        }
+        showPage('adminPage');
+        loadAdminData();
+    }
+
+    function navigateToAuth() {
+        showPage('authPage');
+    }
+
+    // ====== AUTH PAGE LOGIC ======
+    const loginTab = document.getElementById('loginTab');
+    const registerTab = document.getElementById('registerTab');
+    const loginSection = document.getElementById('loginSection');
+    const registerSection = document.getElementById('registerSection');
+    const forgotSection = document.getElementById('forgotSection');
+    const verifySection = document.getElementById('verifySection');
+    const resetSection = document.getElementById('resetSection');
+    const messageBar = document.getElementById('messageBar');
+
+    let forgotEmail = '';
+
+    function showMessage(text, type = 'info') {
+        messageBar.textContent = text;
+        messageBar.className = 'mb-6 rounded-3xl border p-4 text-sm';
+        if (type === 'error') {
+            messageBar.classList.add('border-red-200', 'bg-red-50', 'text-red-700');
+        } else if (type === 'success') {
+            messageBar.classList.add('border-green-200', 'bg-green-50', 'text-green-700');
+        } else {
+            messageBar.classList.add('border-slate-200', 'bg-slate-50', 'text-slate-700');
+        }
+        messageBar.classList.remove('hidden');
+    }
+
+    function hideMessage() {
+        messageBar.classList.add('hidden');
+    }
+
+    function setActiveTab(activeButton) {
+        [loginTab, registerTab].forEach(button => {
+            button.classList.remove('active');
+        });
+        activeButton.classList.add('active');
+    }
+
+    function showSection(section) {
+        [loginSection, registerSection, forgotSection, verifySection, resetSection].forEach(item => item.classList.add('hidden'));
+        section.classList.remove('hidden');
+    }
+
+    loginTab.addEventListener('click', () => {
+        setActiveTab(loginTab);
+        showSection(loginSection);
+        hideMessage();
+    });
+
+    registerTab.addEventListener('click', () => {
+        setActiveTab(registerTab);
+        showSection(registerSection);
+        hideMessage();
+    });
+
+    document.getElementById('forgotLink').addEventListener('click', () => {
+        setActiveTab(loginTab);
+        showSection(forgotSection);
+        hideMessage();
+    });
+
+    document.getElementById('backToLogin').addEventListener('click', () => {
+        setActiveTab(loginTab);
+        showSection(loginSection);
+        hideMessage();
+    });
+
+    document.getElementById('backToForgot').addEventListener('click', () => {
+        setActiveTab(loginTab);
+        showSection(forgotSection);
+        hideMessage();
+    });
+
+    async function handleLogin(event) {
+        event.preventDefault();
+        hideMessage();
+        const username = document.getElementById('loginUsername').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+        const result = auth.login(username, password);
+        if (result.success) {
+            showMessage('Kirish muvaffaqiyatli. Sahifaga yo\'naltirilmoqda...', 'success');
+            setTimeout(() => navigateToPortal(), 800);
+        } else {
+            showMessage(result.message, 'error');
+        }
+    }
+
+    async function handleRegister(event) {
+        event.preventDefault();
+        hideMessage();
+        const fullName = document.getElementById('registerFullName').value.trim();
+        const email = document.getElementById('registerEmail').value.trim();
+        const username = document.getElementById('registerUsername').value.trim();
+        const password = document.getElementById('registerPassword').value;
+        const confirmPassword = document.getElementById('registerConfirmPassword').value;
+        const result = auth.register(username, email, password, confirmPassword, fullName);
+        if (result.success) {
+            showMessage(result.message + ' Endi kirishingiz mumkin.', 'success');
+            document.getElementById('registerForm').reset();
+            setTimeout(() => {
+                setActiveTab(loginTab);
+                showSection(loginSection);
+                hideMessage();
+            }, 1800);
+        } else {
+            showMessage(result.message, 'error');
+        }
+    }
+
+    async function handleForgot(event) {
+        event.preventDefault();
+        hideMessage();
+        const email = document.getElementById('forgotEmail').value.trim();
+        const result = await auth.startForgotPassword(email);
+        if (result.success) {
+            showMessage(result.message, 'success');
+            forgotEmail = email;
+            setTimeout(() => {
+                showSection(verifySection);
+            }, 1000);
+        } else {
+            showMessage(result.message, 'error');
+        }
+    }
+
+    async function handleVerify(event) {
+        event.preventDefault();
+        hideMessage();
+        const code = document.getElementById('verifyCode').value.trim();
+        const result = auth.verifyResetCode(forgotEmail, code);
+        if (result.success) {
+            showMessage(result.message, 'success');
+            setTimeout(() => {
+                showSection(resetSection);
+            }, 1000);
+        } else {
+            showMessage(result.message, 'error');
+        }
+    }
+
+    async function handleReset(event) {
+        event.preventDefault();
+        hideMessage();
+        const password = document.getElementById('resetPassword').value;
+        const confirmPassword = document.getElementById('resetConfirmPassword').value;
+        const code = document.getElementById('verifyCode').value.trim();
+        const result = auth.resetPassword(forgotEmail, code, password, confirmPassword);
+        if (result.success) {
+            showMessage(result.message, 'success');
+            document.getElementById('resetForm').reset();
+            setTimeout(() => {
+                setActiveTab(loginTab);
+                showSection(loginSection);
+                hideMessage();
+            }, 1600);
+        } else {
+            showMessage(result.message, 'error');
+        }
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', handleLogin);
+    document.getElementById('registerForm').addEventListener('submit', handleRegister);
+    document.getElementById('forgotForm').addEventListener('submit', handleForgot);
+    document.getElementById('verifyForm').addEventListener('submit', handleVerify);
+    document.getElementById('resetForm').addEventListener('submit', handleReset);
+
+    // ====== PORTAL PAGE LOGIC ======
+    function loadPortalData() {
+        const currentUser = auth.getCurrentUser();
+        if (currentUser) {
+            document.getElementById('userInfo').textContent = `${currentUser.fullName}`;
+            if (auth.isAdmin()) {
+                document.getElementById('adminPanel').classList.remove('hidden');
+            }
+        }
+    }
+
+    function handleLogout() {
+        auth.logout();
+    }
+
+    function openAddNewsModal() {
+        document.getElementById('addNewsModal').classList.remove('hidden');
+    }
+
+    function closeAddNewsModal() {
+        document.getElementById('addNewsModal').classList.add('hidden');
+    }
+
+    function openAddActivityModal() {
+        document.getElementById('addActivityModal').classList.remove('hidden');
+    }
+
+    function closeAddActivityModal() {
+        document.getElementById('addActivityModal').classList.add('hidden');
+    }
+
+    function submitAddNews(e) {
+        e.preventDefault();
+        const title = document.getElementById('newNewsTitle').value;
+        const desc = document.getElementById('newNewsDesc').value;
+        const image = document.getElementById('newNewsImage').value;
+        app.addNews(title, desc, image, new Date().toLocaleDateString('uz-UZ'));
+        closeAddNewsModal();
+        document.getElementById('addNewsModal').querySelector('form').reset();
+        showMessage('Yangilik qo\'shildi!', 'success');
+    }
+
+    function submitAddActivity(e) {
+        e.preventDefault();
+        const title = document.getElementById('newActivityTitle').value;
+        const desc = document.getElementById('newActivityDesc').value;
+        const icon = document.getElementById('newActivityIcon').value;
+        app.addActivity(title, desc, icon);
+        closeAddActivityModal();
+        document.getElementById('addActivityModal').querySelector('form').reset();
+        showMessage('Faoliyat qo\'shildi!', 'success');
+    }
+
+    function downloadData() {
+        const data = localStorage.getItem('siteData');
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(data));
+        element.setAttribute('download', 'data.json');
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+
+    window.addEventListener('click', (e) => {
+        const addNewsModal = document.getElementById('addNewsModal');
+        const addActivityModal = document.getElementById('addActivityModal');
+        if (e.target === addNewsModal) closeAddNewsModal();
+        if (e.target === addActivityModal) closeAddActivityModal();
+    });
+
+    // ====== ADMIN PAGE LOGIC ======
+    function loadAdminData() {
+        const currentUser = auth.getCurrentUser();
+        if (currentUser) {
+            document.getElementById('adminUserInfo').textContent = `👤 ${currentUser.fullName}`;
+        }
+
+        const data = JSON.parse(localStorage.getItem('siteData') || '{}');
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+
+        document.getElementById('newsCount').textContent = (data.news || []).length;
+        document.getElementById('activitiesCount').textContent = (data.activities || []).length;
+        document.getElementById('usersCount').textContent = users.length;
+        document.getElementById('adminCount').textContent = users.filter(u => u.isAdmin).length;
+
+        const newsTable = document.getElementById('newsTable');
+        newsTable.innerHTML = (data.news || []).map(news => `
+            <tr class="border-b hover:bg-gray-50">
+                <td class="px-4 py-2">${news.id}</td>
+                <td class="px-4 py-2">${news.title.substring(0, 30)}...</td>
+                <td class="px-4 py-2">${news.date}</td>
+                <td class="px-4 py-2 text-center">
+                    <button class="text-blue-600 hover:underline text-xs">Tahrirlash</button> |
+                    <button class="text-red-600 hover:underline text-xs">O'chirish</button>
+                </td>
+            </tr>
+        `).join('');
+
+        const activitiesTable = document.getElementById('activitiesTable');
+        activitiesTable.innerHTML = (data.activities || []).map(activity => `
+            <tr class="border-b hover:bg-gray-50">
+                <td class="px-4 py-2">${activity.id}</td>
+                <td class="px-4 py-2">${activity.title}</td>
+                <td class="px-4 py-2">${activity.description}</td>
+                <td class="px-4 py-2 text-center">
+                    <button class="text-blue-600 hover:underline text-xs">Tahrirlash</button> |
+                    <button class="text-red-600 hover:underline text-xs">O'chirish</button>
+                </td>
+            </tr>
+        `).join('');
+
+        const usersTable = document.getElementById('usersTable');
+        usersTable.innerHTML = users.map(user => `
+            <tr class="border-b hover:bg-gray-50">
+                <td class="px-4 py-2">${user.id}</td>
+                <td class="px-4 py-2">${user.fullName}</td>
+                <td class="px-4 py-2">${user.username}</td>
+                <td class="px-4 py-2">${user.email}</td>
+                <td class="px-4 py-2">${user.isAdmin ? 'Admin' : 'User'}</td>
+                <td class="px-4 py-2">${user.registrationDate}</td>
+            </tr>
+        `).join('');
+    }
+
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const tab = btn.dataset.tab;
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            document.querySelectorAll('.tab-btn').forEach(el => {
+                el.classList.remove('border-b-2', 'border-blue-600', 'text-blue-600');
+                el.classList.add('text-gray-600');
+            });
+            document.getElementById(tab + 'Tab').classList.remove('hidden');
+            btn.classList.add('border-b-2', 'border-blue-600', 'text-blue-600');
+            btn.classList.remove('text-gray-600');
+        });
+    });
+
+    function openAddNewsModalAdmin() {
+        document.getElementById('addNewsModalAdmin').classList.remove('hidden');
+    }
+
+    function closeAddNewsModalAdmin() {
+        document.getElementById('addNewsModalAdmin').classList.add('hidden');
+    }
+
+    function openAddActivityModalAdmin() {
+        document.getElementById('addActivityModalAdmin').classList.remove('hidden');
+    }
+
+    function closeAddActivityModalAdmin() {
+        document.getElementById('addActivityModalAdmin').classList.add('hidden');
+    }
+
+    function submitAddNewsAdmin(e) {
+        e.preventDefault();
+        const title = document.getElementById('newNewsTitleAdmin').value;
+        const desc = document.getElementById('newNewsDescAdmin').value;
+        const image = document.getElementById('newNewsImageAdmin').value;
+        app.addNews(title, desc, image, new Date().toLocaleDateString('uz-UZ'));
+        closeAddNewsModalAdmin();
+        document.getElementById('addNewsModalAdmin').querySelector('form').reset();
+        loadAdminData();
+        showMessage('Yangilik qo\'shildi!', 'success');
+    }
+
+    function submitAddActivityAdmin(e) {
+        e.preventDefault();
+        const title = document.getElementById('newActivityTitleAdmin').value;
+        const desc = document.getElementById('newActivityDescAdmin').value;
+        const icon = document.getElementById('newActivityIconAdmin').value;
+        app.addActivity(title, desc, icon);
+        closeAddActivityModalAdmin();
+        document.getElementById('addActivityModalAdmin').querySelector('form').reset();
+        loadAdminData();
+        showMessage('Faoliyat qo\'shildi!', 'success');
+    }
+
+    function downloadDataAdmin() {
+        const data = localStorage.getItem('siteData');
+        const element = document.createElement('a');
+        element.setAttribute('href', 'data:application/json;charset=utf-8,' + encodeURIComponent(data));
+        element.setAttribute('download', 'data.json');
+        element.style.display = 'none';
+        document.body.appendChild(element);
+        element.click();
+        document.body.removeChild(element);
+    }
+
+    function resetSettingsAdmin() {
+        document.getElementById('settingsForm').reset();
+    }
+
+    // ====== INITIAL PAGE STATE ======
+    if (auth.checkAuthStatus()) {
+        navigateToPortal();
+    } else {
+        navigateToAuth();
+    }
+</script>
+</body>
+</html>
